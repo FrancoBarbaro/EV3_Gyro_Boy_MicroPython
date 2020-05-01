@@ -28,7 +28,7 @@ timer.start()
 sound = Sound()
 leds = Leds()
 console = Console()
-gyro_sensor = GyroSensor(INPUT_3)
+gyro_sensor = GyroSensor(INPUT_2)
 gyro_sensor.mode = GyroSensor.MODE_GYRO_RATE
 arms_motor = MediumMotor(OUTPUT_C)
 left_motor = LargeMotor(OUTPUT_D)
