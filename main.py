@@ -57,27 +57,32 @@ class SensorThread(Thread):
                 state = "read sensors"
             if state == "read sensors":
                 try:
+                    # For some reason, playing sounds on this separate thread has an
+                    # impact on the main thread, making it slow down or maybe even block
+                    # the calculations and instructions that control the robot's motors
+                    # making it lose balance.  This could to be a bug with mycropython
+                    # or the ev3dev2 API.
                     if color_sensor.color == color_sensor.COLOR_RED:
                         log.debug("Detected color: " + color_sensor.color_name)
-                        #sound.play_note('C7', 0.5)
+                        #sound.play_note('C7', 0.5, play_type=sound.PLAY_NO_WAIT_FOR_COMPLETE)
                         drive_speed = 0
                         steering = 0
                     if color_sensor.color == color_sensor.COLOR_GREEN:
                         log.debug("Detected color: " + color_sensor.color_name)
-                        #sound.play_note('C7', 0.5)
+                        #sound.play_note('C7', 0.5, play_type=sound.PLAY_NO_WAIT_FOR_COMPLETE)
                         drive_speed = 150
                         steering = 0
                     if color_sensor.color == color_sensor.COLOR_BLUE:
                         log.debug("Detected color: " + color_sensor.color_name)
-                        #sound.play_note('C7', 0.5)
+                        #sound.play_note('C7', 0.5, play_type=sound.PLAY_NO_WAIT_FOR_COMPLETE)
                         steering = 70
                     if color_sensor.color == color_sensor.COLOR_GREEN:
                         log.debug("Detected color: " + color_sensor.color_name)
-                        #sound.play_note('C7', 0.5)
+                        #sound.play_note('C7', 0.5, play_type=sound.PLAY_NO_WAIT_FOR_COMPLETE)
                         steering = -70
                     if color_sensor.color == color_sensor.COLOR_WHITE:
                         log.debug("Detected color: " + color_sensor.color_name)
-                        #sound.play_note('C7', 0.5)
+                        #sound.play_note('C7', 0.5, play_type=sound.PLAY_NO_WAIT_FOR_COMPLETE)
                         drive_speed = -75
                     if ultra_sonic_sensor.distance_centimeters < 25:
                         log.debug("Detected close object at distance: {:5.2f}".format(
@@ -102,7 +107,7 @@ class SensorThread(Thread):
                             steering = -70
 
                         sleep(4.0)
-                        #sound.play_note('C7', 0.5)
+                        #sound.play_note('C7', 0.5, play_type=sound.PLAY_NO_WAIT_FOR_COMPLETE)
                         drive_speed = previous_speed
                         steering = 0
                 except:
